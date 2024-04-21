@@ -52,7 +52,7 @@ or E4(Erro, ErA, ErB);
 wire VeA, VeB;
 and H1(VeA, Hinv, Minv);
 and H2(VeB, Hinv, L);
-or H3(Ve, VeA, VeB, Nerro);
+or H3(Ve, VeA, VeB, Erroinv);
 
 //Al = ~M + ~L + Erro
 or A1(Al, Minv, Linv, Erro);
