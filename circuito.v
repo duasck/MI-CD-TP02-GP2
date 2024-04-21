@@ -25,7 +25,7 @@ not N5(Uainv, Ua);
 not N6(Usinv, Us);
 not N7(Vazioinv, Vazio);
 not N8(Tinv, T);
-not N9(Baixoinv, baixo);
+not N9(Baixoinv, Baixo);
 not N10(Medioinv, Medio);
 not N11(Cheioinv, Cheio);
 
