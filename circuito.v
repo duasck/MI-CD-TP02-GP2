@@ -1,5 +1,4 @@
-
-module circuito (Us, Ua, H, T, M, L, Vs, Bs, Al, Cheio, Medio, Baixo, Vazio, Erro, Ve);
+module circuito(Us, Ua, H, T, M, L, Vs, Bs, Al, Cheio, Medio, Baixo, Vazio, Erro, Ve);
 
 input Us, Ua, T, H, M, L;
 output Vs, Bs, Al, Cheio, Medio, Baixo, Vazio, Erro, Ve;
@@ -16,7 +15,6 @@ output Vs, Bs, Al, Cheio, Medio, Baixo, Vazio, Erro, Ve;
     Ve (Vavula entrada)= ~H ~M + ~H L
 */
 
-always @(*) begin
 //=================DEFINICOES===========
 wire Hinv, Minv, Linv, Erroinv, Uainv, Usinv, Vazioinv, Baixoinv, Medioinv, Cheioinv, Tinv;
 not N1(Hinv, H);
@@ -41,11 +39,10 @@ and B1 (Baixo, Hinv, Minv, L);
 and M1 (Medio, Hinv, M, L);
 
 // Cheio = H M L
-and C1 (Cheio, H, M L);
+and C1 (Cheio, H, M, L);
 
 // Erro = M ~L + H ~M
 wire ErA, ErB;
-not E1(Linv, L);
 and E2(ErA, M, Linv);
 and E3(ErB, H, Minv);
 or E4(Erro, ErA, ErB);
@@ -65,13 +62,13 @@ or A1(Al, Minv, Linv, Erro);
 wire VsA, VsB;
 and VS1 (VsA, Ua, Usinv, Erroinv, Minv, Baixo, Vazioinv);
 and VS2 (VsB, Ua, Usinv, T, Erroinv, Vazioinv);
-or VS3 (Vs, VsA, VsB)
+or VS3 (Vs, VsA, VsB);
 
 //Bs (Aspercao)= ~Erro ~Vazio ~Us ~Ua + ~Us Ua ~T Medio ~Baixo ~Vazio ~Erro
-wire BsA, BsB
+wire BsA, BsB;
 and BS1(BsA, Erroinv, Vazioinv, Usinv, Uainv);
 and BS2(BsB, Usinv, Ua, Tinv, Medio, Baixoinv, Vazioinv, Erroinv);
 or BS3(Bs, BsA, BsB);
-end
+
 
 endmodule
