@@ -1,7 +1,7 @@
-module ErroCaixa(Us, Ua, H, T, M, L, Vs, Bs, Al, Erro, Ve, Dig1, Dig2, Dig3, SegA, SegB, SegC, SegD, SegE, SegF, SegG);
+module circuito(Us, Ua, H, T, M, L, Vs, Bs, Al, Erro, Ve, Dig1, Dig2, Dig3, SegA, SegB, SegC, SegD, SegE, SegF, SegG, Ponto);
 
 input Us, Ua, T, H, M, L;
-output Vs, Bs, Al,Erro, Ve, Dig1, Dig2, Dig3, SegA, SegB, SegC, SegD, SegE, SegF, SegG;
+output Vs, Bs, Al,Erro, Ve, Dig1, Dig2, Dig3, SegA, SegB, SegC, SegD, SegE, SegF, SegG, Ponto;
 
 /*
     Vs (Gotejamento)= Ua ~Us ~Erro ~Medio Baixo ~Vazio + Ua ~Us T ~Erro ~Vazio
@@ -44,18 +44,15 @@ and C1 (Cheio, H, M, L);
 
 // Erro = M ~L + H ~M
 wire ErA, ErB;
-and E2(ErA, M, Linv);
-and E3(ErB, H, Minv);
-or E4(Erro, ErA, ErB);
+and E2 (ErA, M, Linv);
+and E3 (ErB, H, Minv);
+or E4 (Erro, ErA, ErB);
 
 //Valvula de entrada
 //Ve = ~H * ~M + ~H * L
-// erro e H
 wire VeA, VeB;
-//and H1(VeA, Hinv, Minv, Cheioinv);
-//and H2(VeB, Hinv, L, Cheioinv);
-or H3(VeA, H, Erro);
-not H4(Ve, VeA);
+or H3 (VeA, H, Erro);
+not H4 (Ve, VeA);
 
 //Al = ~M + ~L + Erro
 or A1(Al, Minv, Linv, Erro);
@@ -69,24 +66,33 @@ or VS3 (Vs, VsA, VsB);
 
 //Bs (Aspercao)= ~Erro ~Vazio ~Us ~Ua + ~Us Ua ~T Medio ~Baixo ~Vazio ~Er
 wire BsA, BsB;
-and BS1(BsA, Erroinv, Vazioinv, Usinv, Uainv);
-and BS2(BsB, Usinv, Ua, Tinv, Medio, Baixoinv, Vazioinv, Erroinv);
-or BS3(Bs, BsA, BsB);
+and BS1 (BsA, Erroinv, Vazioinv, Usinv, Uainv);
+and BS2 (BsB, Usinv, Ua, Tinv, Medio, Baixoinv, Vazioinv, Erroinv);
+or BS3 (Bs, BsA, BsB);
 
 //========================
-//not (Dig1, 0);
-//not (Dig2, 0);
-//not (Dig3, 0);
-//not (SegA, H);
-//not (SegD, M);
-//not (SegG, L);
+not (Dig1, 0);
+not (Dig2, 0);
+not (Dig3, 0);
+not (SegB, 0);
+not (SegC, 0);
+not (SegE, 0);
+not (SegF, 0);
+not (Ponto, 0);
 
-//not (SegB, 0);
-//not (SegC, 0);
-//not (SegE, 0);
-//not (SegF, 0);
+wire LedD, LedG, LedA;
 
+// Minimo
+and (LedD, L, Erroinv);
+not (SegD, LedD);
+
+// Medio
+and (LedG, L, M, Erroinv);
+not (SegG, LedG);
+
+// Alto
+and (LedA, L, M, H, Erroinv);
+not (SegA, LedA);
 //========================
-
 
 endmodule
