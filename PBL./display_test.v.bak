@@ -1,0 +1,14 @@
+module display_test(L, M, H, Display);
+	input wire L, M, H;
+	output [2:0] Display;
+	
+	always @*begin
+		case ({L, M, H})
+			3'b000: Display = 7'b1110111;
+			3'b001: Display = 7'b1110110;
+			3'b010: Display = 7'b0110110;
+			default: Display = 7'b1111111;
+		endcase
+	end
+
+endmodule 
